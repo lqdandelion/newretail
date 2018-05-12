@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type='text/javascript' src='__ROOT__/static/js/city/jquery.js'></script>
+    <script type='text/javascript' src='__ROOT__/static/js/city/citylist.js'></script>
+    <script type='text/javascript' src='__ROOT__/static/js/querycity.js'></script>
+    <link href='__ROOT__/static/css/city/cityquery.css' rel="stylesheet" type="text/css" />
+    <title>城市搜索</title>
+</head>
+<script type="text/javascript">
+    var one='<?php echo $one ?>';
+    var two='<?php echo $two ?>';
+    var three='<?php echo $three ?>';
+    var four='<?php echo $four  ?>';
+    var five='<?php echo $five ?>';
+    var six='<?php echo $six ?>';
+    var city='<?php echo $city ?>';
+    one = JSON.parse(one);
+    two = JSON.parse(two);
+    three = JSON.parse(three);
+    four = JSON.parse(four);
+    five  = JSON.parse(five);
+    six  = JSON.parse(six);
+    city = JSON.parse(city);
+    var labelFromcity = new Array();
+    labelFromcity ['热门城市'] = new Array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40);
+    labelFromcity ['A-E'] = one;
+    labelFromcity ['F-I'] = two;
+    labelFromcity ['J-M'] = three;
+    labelFromcity ['N-R'] = four;
+    labelFromcity ['S-W'] = five;
+    labelFromcity ['X-Z'] = six;
+    var hotList = new Array(14,15,16,17,18,19);
+
+    $(document).ready(function(){
+        $('#fromcity').querycity({'data':city,'tabs':labelFromcity,'hotList':hotList});
+    });
+</script>
+<body>
+<div style='margin:100px auto;width:900px' >
+    <input id='fromcity' type='text' value='' />
+    <!--<input id='tocity' type='text' value='' /><br />-->
+</div>
+</body>
+</html>
+

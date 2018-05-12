@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="__ROOT__/static/scripts/jquery-1.8.3.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.reveal.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.cookie.js"></script>
+    <link rel="icon" href="__ROOT__/static/images/favicon.ico" type="image/x-icon" />
+    <!--[if lte IE 10]>
+    <script src="__ROOT__/static/scripts/requestAnimationFrame.js"></script>
+    <![endif]-->
+    <link rel=stylesheet href="__ROOT__/static/style/reset.css">
+    <link rel=stylesheet href="__ROOT__/static/style/common.css">
+    <link rel=stylesheet href="__ROOT__/static/style/base.css">
+    <link rel=stylesheet href="__ROOT__/static/style/account.css">
+    <link rel=stylesheet href="__ROOT__/static/style/header.css">
+    <link rel=stylesheet href="__ROOT__/static/style/reveal.css">
+    <link rel=stylesheet href="__ROOT__/static/style/login.css">
+    <link rel=stylesheet href="__ROOT__/static/style/menu02.css">
+    <link rel=stylesheet href="__ROOT__/static/style/order.css">
+    <link rel=stylesheet href="__ROOT__/static/style/footer_2.css">
+    <link rel=stylesheet href="__ROOT__/static/style/form.css">
+    <link rel="stylesheet" type="text/css" href="__ROOT__/static/css/address.css">
+    <link rel="stylesheet" href="__ROOT__/static/css/bootstrap-admin.css">
+    <link href="__ROOT__/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <title>订饭组</title>
+</head>
+    <body>
+        <!--header部分-->
+        {include file="public/header" /}
+        <!--主体-->
+        <div class="content">
+            <!--左侧导航-->
+            {include file="public/left" /}
+            <!--右侧内容-->
+            <div class="content-right fl">
+                <div class="summary fl">
+                    <h3 class="summary-header">收货地址</h3>
+                </div>
+                <div class="accountformaddress">
+                    <a class="btn blue" data-toggle="modal" data-target="#myModal" href="{:url('address/add')}" style="width: 90px;height: 35px"> <i class="fa fa-plus"></i>增加分类</a>
+                    <br>
+                    <br>
+                    <table class="table table-hover" cellspacing="4" cellpadding="4" >
+                        <thead>
+                        <tr style="font-size: 16px">
+                            <th align="center"  width="12%">姓名</th>
+                            <th align="center"  width="15%">电话</th>
+                            <th align="center"  width="40%">地址</th>
+                            <th align="center" width="13%">状态</th>
+                            <th align="center" width="20%">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="userinfo" id="vo"}
+                        <tr style="font-size: 14px;height: 30px">
+                            <td align="center"  width="12%">{$vo.name}</td>
+                            <td align="center"  width="15%">{$vo.phone}</td>
+                            <td align="center"  width="40%">{$vo.address}</td>
+                            <td align="center" width="13%">{eq name="vo.status" value="0"}无{else/}默认地址{/eq}</td>
+                            <td align="left" width="20%">
+                                <a data-toggle="modal" data-target="#myModal" href="{:url('address/toedit','id='.$vo['id'])}" ><i class="fa fa-edit"></i> 修改</a>
+                                <a href="{:url('address/delete','id='.$vo['id'])}" onclick="delAddress()"> <i class="fa fa-trash-o"></i> 删除</a>
+                                {eq name="vo.status" value="0"}
+                                <a class="btn btn-primary btn-xs" style="width: 60px;height: 22px" href="{:url('address/setdefault','id='.$vo['id'])}" onclick="down()">设为默认</a>
+                                {/eq}
+                            </td>
+
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="footer-content">
+              <div class="footer-content-entrance">
+                <a class="footer-content-link" href="/about.html?p=guanyuwomen">关于我们</a>
+                <span class="footer-content-separator">|</span>
+                <a class="footer-content-link footer-content-weixing">关注微信
+                <img class="weixin-pic" src="/images/qr_code.jpg">
+                </a>
+                <span class="footer-content-separator">|</span> 
+                <a class="footer-content-link" href="/about.html?p=tousujianyi">投诉建议</a>
+                <span class="footer-content-separator">|</span>
+                <a class="footer-content-link kaidian_address" href="/about.html?p=shangjiaruzhu">商家入驻</a>
+
+              </div>
+              <div class="footer-content-copyright">©2016 dingfanzu.com <a target="_blank">京ICP证020666号</a> </div>
+        </div>
+        <!--提示框-->
+        {include file="public/tip" /}
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-animation="fade">
+        </div>
+        <script src="__ROOT__/static/scripts/common.js"></script>
+        <script src="__ROOT__/static/scripts/md5.js"></script>
+        <script src="__ROOT__/static/scripts/login.js"></script>
+        <script src="__ROOT__/static/scripts/cart.lib.js"></script>
+        <script src="__ROOT__/static/scripts/cart.js"></script>
+        <script src="__ROOT__/static/scripts/header.js"></script>
+        <script src="__ROOT__/static/scripts/account.js"></script>
+        <script src="__ROOT__/static/scripts/myInfo.js"></script>
+        <script src="__ROOT__/static/scripts/shopInfo.js"></script>
+        <script src="__ROOT__/static/scripts/footer.js"></script>
+        <script src="__ROOT__/static/js/my/city.js"></script>
+        <script src="__ROOT__/static/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            function down() {
+                if (!confirm("确认设为默认地址？")) {
+                    window.event.returnValue = false;
+                }
+            }
+            function delAddress() {
+                if (!confirm("确认要删除？")) {
+                    window.event.returnValue = false;
+                }
+            }
+            $(function(){
+
+                //点击保存
+                $("#save-address").click(function(event) {
+                    saveMyAddress();
+                });
+
+
+                //初始化
+                var shopName=shop_GetValue("shopName");
+                var place=my_GetValue("place");
+                var addressDetail=my_GetValue("address-detail");
+
+                //看是否换shop了。
+                if(shopName!=""&&shopName!=place){
+                    $("#myFanzu,#Addr").html(shopName);
+                    $("#name,#phone").val("");
+
+                }else {
+                    var name=my_GetValue("name");
+                    var pn=my_GetValue("pn");
+
+                    if(place){
+                        $("#myFanzu,#place").html(place);
+                        $("#Addr").val(place);
+                    }
+                    $("#name").val(name);
+                    $("#pn").val(pn);
+                    $("#address-detail").val(addressDetail);
+                }
+
+            });
+            var url = "<?php echo config('__INDEX__') ?>";
+
+            function getCityCode(){
+                var hasCity = $("#Addr").data("hasCity");
+                var code = "" + $("#Addr").data("code");
+                if(hasCity == true){
+                    return code.substring(0,4)+"00";
+                }else{
+                    return code.substring(0,2)+"0000";
+                }
+            }
+
+            //保存地址
+            function saveMyAddress(){
+                var name=$('#name').val().trim();
+                var pn=$('#pn').val().trim();
+                var place=$('#Addr').val().trim();
+                var addressDetail=$('#address-detail').val().trim();
+
+                $('#error-name,#error-pn,#error-detail').text("");
+                //验证合法性
+                if(name==""){
+                    $('#error-name').text("请输入姓名");
+                    return;
+                }
+                if(pn==""){
+                    $('#error-pn').text("请输入手机号");
+                    return;
+                }
+                if(place == ""){
+                    $('#error-address').text("请选择地区");
+                    return;
+                }
+                if(addressDetail==""){
+                    $('#error-detail').text("请输入详细地址");
+                    return;
+                }
+                uploadMyAddress(pn,name,place,addressDetail);
+            }
+
+            function uploadMyAddress(pn,name,place,addressDetail){
+                $username=$.cookie('userId');
+                if(!$username){
+                    showAlert("用户未登录");
+                    return;
+                }
+                var data = {
+                    phone:$username,
+                    pn:pn,
+                    name:name,
+                    place:place,
+                    addressDetail:addressDetail,
+                    cityCode:getCityCode(),
+                };
+                alert(JSON.stringify(data));
+                $.ajax({
+                    //几个参数需要注意一下
+                    type: "POST",//方法类型
+                    dataType: "json",//预期服务器返回的数据类型
+                    url: url+'/config/saveuserinfo',//url
+                    data: data,
+                    success: function (data) {
+                        console.log(data);//打印服务端返回的数据(调试用)
+                        if (data['data'] == 0) {
+                            my_SaveValue("pn",pn);
+                            my_SaveValue("name",name);
+                            my_SaveValue("place",place);
+                            my_SaveValue("cityCode",data.cityCode);
+                            my_SaveValue("address-detail",addressDetail);
+                            showAlert("保存成功");
+                        }else if(data['data'] == 1){
+                            showAlert("保存失败");
+                        }
+                    },
+                    error: function () {
+                        showAlert("服务器异常，请重试！");
+                    }
+                });
+            }
+
+        </script>
+    </body>
+</html>
+
+<script>
+    $(function(){
+        // 地址选择器遮罩层打开与关闭
+        $("#areaLabel").click(function(e){
+            $("#addressSelectWrapper").show();
+            e.stopPropagation();
+        });
+        $(document).click(function () {
+            $("#addressSelectWrapper").hide();
+        });
+        $("#cancel").click(function () {
+            $("#addressSelectWrapper").hide();
+        });
+        $("#addressSelect").click(function (e) {
+            e.stopPropagation();
+        });
+
+        initAddress();
+    });
+
+    //初始化地址选择
+    function initAddress() {
+        $("#Addr").cityLinkage({
+            containerId: 'addressSelectWrapper',
+            getSelectedCode:function(){return $("#Addr").data("code");},
+            callback:function(data) {
+                $("#Addr").val(data.addr).data("code",data.town.code).data("hasCity",data.hasCity);
+
+                alert($("#Addr").data("hasCity"));
+            }
+        });
+    }
+
+</script>

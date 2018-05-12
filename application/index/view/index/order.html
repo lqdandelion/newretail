@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="__ROOT__/static/scripts/jquery-1.8.3.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.reveal.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.cookie.js"></script>
+    <link rel="icon" href="__ROOT__/static/images/favicon.ico" type="image/x-icon" />
+    <!--[if lte IE 10]>
+    <script src="__ROOT__/static/scripts/requestAnimationFrame.js"></script>
+    <![endif]-->
+    <link rel=stylesheet href="__ROOT__/static/style/reset.css">
+    <link rel=stylesheet href="__ROOT__/static/style/common.css">
+    <link rel=stylesheet href="__ROOT__/static/style/base.css">
+    <link rel=stylesheet href="__ROOT__/static/style/account.css">
+    <link rel=stylesheet href="__ROOT__/static/style/header.css">
+    <link rel=stylesheet href="__ROOT__/static/style/reveal.css">
+    <link rel=stylesheet href="__ROOT__/static/style/login.css">
+    <link rel=stylesheet href="__ROOT__/static/style/menu02.css">
+    <link rel=stylesheet href="__ROOT__/static/style/order.css">
+    <link rel=stylesheet href="__ROOT__/static/style/footer_2.css">
+    <link rel=stylesheet href="__ROOT__/static/style/page.css">
+    <title>订饭组</title>
+</head>
+<body>
+<!--header部分-->
+{include file="public/header" /}
+<!--主体-->
+<div class="content">
+    <!--左侧导航-->
+    {include file="public/left" /}
+    <!--右侧内容-->
+    <div class="content-right fl">
+        <div class="summary fl">
+            <h3 class="summary-header">全部订单</h3>
+        </div>
+        <div class="order-content-wrap">
+
+            <?php foreach($rows as $row):?>
+            <div class="order-content">
+                <div class="order-meal">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th colspan="3">
+                                <a href='/shop/<?php echo $row['shopId'];?>'  class="shop-name"><?php echo $row['shopName'];?></a>
+                                <p class="shop-info">
+                                    <span class="phone-icon"></span>商家电话：<?php echo $row['shopPhone'];?>
+                                </p>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+
+                                      foreach ( $row['items'] as $obj ){
+                                ?>
+                        <tr>
+                            <td><?php echo $obj['name'];?></td>
+                            <td><?php echo $obj['count'];?></td>
+                            <td class="text-right">￥<?php echo $obj['price']; ?></td>
+                        </tr>
+                        <?php     }
+                                ?>
+
+                        </tbody>
+                    </table>
+                    <div class="order-price">
+                        总价：<span class="ft-red">￥<?php echo $row['price'];?></span>
+                    </div>
+                </div>
+                <div class="order-info">
+                    <div class="delivery-info">
+                        <div style="font-size: 16px;padding-left: 15px;color: #0000cc">订单状态：</div>
+                        <div class="order-meal">
+                        <div class="order-delivery">
+                            <div class="receive-info">
+                                <span>订单编号：<?php echo $row['orderId'];?></span>
+                                <span>创建时间：</span>
+                                <span>送餐地址：<?php echo $row['orderAddress'];?></span>
+                                <span>联系人：<?php echo $row['orderName'];?></span>
+                                <span>电话：<?php echo $row['orderPhone'];?></span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class='delivery-card'>
+
+
+
+                </div>
+                <div class="order-operator " >
+                    <div class="operator-btns">
+                        <?php
+                                        if($row['paymethod']!=2&&$row['pay']==0&&$row['received']==0){
+                                            echo "<a class=pay-btn onclick=orderPay(".$row['orderId'].",".$row['orderTime'].")>支付</a><a class=pay-btn onclick=orderCancel(".$row['orderId'].",'".$row['username']."')>取消</a>";
+                        }else if($row['paymethod']==2&&$row['received']==0){
+                        echo "<a class=pay-btn onclick=orderCancel(".$row['orderId'].",'".$row['username']."')>取消</a>";
+                        }
+                        if($row['received']==1){
+                        echo "<a class=pay-btn onclick=urgeOrder(".$row['orderId'].",'".$row['username']."')>催单</a>";
+                        }
+                        if($row['received']==3){
+                        echo "<a class=pay-btn>评价</a><a href='/shop/".$row['shopId']."' class=pay-btn>再买一次</a>";
+                        }
+
+                        ?>
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php  endforeach;?>
+
+</div>
+</div>
+
+<div class="clear"></div>
+</div>
+<div class="footer-content">
+    <div class="footer-content-entrance">
+        <a class="footer-content-link" href="/about.html?p=guanyuwomen">关于我们</a>
+        <span class="footer-content-separator">|</span>
+        <a class="footer-content-link footer-content-weixing">关注微信
+            <img class="weixin-pic" src="__ROOT__/static/images/qr_code.jpg">
+        </a>
+        <span class="footer-content-separator">|</span>
+        <a class="footer-content-link" href="/about.html?p=tousujianyi">投诉建议</a>
+        <span class="footer-content-separator">|</span>
+        <a class="footer-content-link kaidian_address" href="/about.html?p=shangjiaruzhu">商家入驻</a>
+
+    </div>
+    <div class="footer-content-copyright">©2016 dingfanzu.com <a target="_blank">京ICP证020666号</a> </div>
+</div>
+
+<!--提示框-->
+{include file="public/tip" /}
+
+<script src="__ROOT__/static/scripts/common.js"></script>
+<script src="__ROOT__/static/scripts/md5.js"></script>
+<script src="__ROOT__/static/scripts/login.js"></script>
+<script src="__ROOT__/static/scripts/cart.lib.js"></script>
+<script src="__ROOT__/static/scripts/cart.js"></script>
+<script src="__ROOT__/static/scripts/common.js"></script>
+<script src="__ROOT__/static/scripts/header.js"></script>
+<script src="__ROOT__/static/scripts/account.js"></script>
+<script src="__ROOT__/static/scripts/footer.js"></script>
+<script type="text/javascript">
+    $(function(){
+
+    });
+    //取消订单
+    function orderCancel(orderId,username){
+        var postUrl="/ajax/orderCancel.php";
+        $.post(postUrl,
+            {
+                orderId:orderId,
+                username:username
+            },
+            function(data,status,xhr) {
+                if(status=="success"){
+                    $res= $.parseJSON(data);
+                    if($res.code=="0"){
+                        showAlert("取消成功","/account/order");
+                    }else if($res.code=="1"){
+                        showAlert($res.msg,"/account/order");
+                    }
+                }else{
+                    showAlert("服务器异常","/account/order");
+                }
+            });
+    }
+    //支付订单。
+    function orderPay(orderId,orderTime){
+        var timestamp = Date.parse(new Date());
+        var nowTime=timestamp/1000;
+        var dis=nowTime-orderTime;
+        if(dis>15*60){
+            showAlert("超过15分钟未支付，订单已取消","/account/order");
+        }else{
+            showAlert("去支付页");
+        }
+    }
+
+    //催单
+    function urgeOrder(orderId,username){
+        var postUrl="/ajax/urgeOrder.php";
+        $.post(postUrl,
+            {
+                orderId:orderId,
+                username:username
+            },
+            function(data,status,xhr) {
+                if(status=="success"){
+                    $res= $.parseJSON(data);
+                    if($res.code=="0"){
+                        showAlert("已通知商家");
+                    }else if($res.code=="1"){
+                        showAlert($res.msg);
+                    }
+                }else{
+                    showAlert("服务器异常");
+                }
+            });
+    }
+</script>
+</body>
+</html>

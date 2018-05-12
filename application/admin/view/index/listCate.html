@@ -1,0 +1,78 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+
+    <link rel=stylesheet href="__ROOT__/static/css/reset.css">
+    <link rel="stylesheet" href="__ROOT__/static/css/bootstrap-admin.css">
+    <link href="__ROOT__/static/css/backstage.css"  rel="stylesheet"  type="text/css"/>
+    <link href="__ROOT__/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="details">
+    <div class="details_operation clearfix">
+       <!-- <div class="bui_select">
+            <input type="button" value="添加分类" class="btn btn-primary"  onclick="addCate()">
+        </div>-->
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-xs-1" ></div>
+            <div class="col-lg-2 col-md-2 col-xs-2" ><a class="btn blue" href="{:url('category/toaddcate')}"> <i class="fa fa-plus"></i>增加分类</a></div>
+            <div class="col-lg-4 col-md-4 col-xs-4" ></div>
+            <div class="col-lg-4 col-md-4 col-xs-4" >
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="分类名称搜索" id="cname" name="cname" value="{$cname}"/>
+                    <span class="input-group-addon"><a href="javascript:void(0)" onclick="searchByCname()"><i class="glyphicon glyphicon-search" ></i></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--表格-->
+    <table class="table table-hover" cellspacing="4" cellpadding="4">
+        <thead>
+        <tr style="font-size: 16px">
+            <th align="center"  width="10%">ID</th>
+            <th align="center"  width="15%">CATE_ID</th>
+            <th align="center"  width="20%">分类名称</th>
+            <th align="center" width="10%">权重</th>
+            <th align="center" width="20%">创建时间</th>
+            <th align="center" width="25%">操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="cateList" id="vo"}
+            <tr style="font-size: 14px;height: 30px">
+                <td align="center"  width="10%">{$vo.id}</td>
+                <td align="center"  width="15%">{$vo.cid}</td>
+                <td align="center"  width="20%">{$vo.cname}</td>
+                <td align="center" width="10%">{$vo.weight}</td>
+                <td align="center" width="20%">{$vo.create_time}</td>
+                <td align="center" width="25%">
+
+                    <a  href="{:url('category/toeditcate','id='.$vo['id'])}" ><i class="fa fa-edit"></i> 修改</a>
+                    <a href="javascript:void(0)" onclick="delCate(<?php echo $vo['id'] ?>)"> <i class="fa fa-trash-o"></i> 删除</a>
+
+                </td>
+
+            </tr>
+        {/volist}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+<script type="text/javascript">
+    function delCate(id){
+        if(window.confirm("您确定要删除吗？")){
+            window.location="../category/delcate/id/"+ id;
+        }
+    }
+    function searchByCname() {
+        var cname = document.getElementById('cname').value;
+        window.location="../category/listcate/cname/"+ cname;
+    }
+    var url = "<?php echo config('__ADMIN__') ?>";
+</script>

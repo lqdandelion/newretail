@@ -1,0 +1,135 @@
+<link rel="stylesheet" type="text/css" href="__ROOT__/static/css/address.css">
+
+<form class="form-horizontal" role="form1" method="post" action="{:url('address/edit/')}">
+
+    <div class="modal-dialog" style="width: 500px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">修改地址</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="id" name="id" value="{$address.id}">
+                <div class="form-group fps">
+                    <div for="name" class="col-sm-3 control-label">收货人：</div>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="请输入收货人姓名" value="{$address.name}">
+                    </div>
+                    <div class="col-sm-4 col-xs-12"><div class="Validform_checktip "></div></div>
+                </div>
+
+                <div class="form-group fps">
+                    <div for="phone" class="col-sm-3 control-label">手机号：</div>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="请输入手机号" value="{$address.phone}" >
+                    </div>
+                    <div class="col-sm-4 col-xs-12"><div class="Validform_checktip "></div></div>
+                </div>
+
+                <div class="form-group fps">
+                    <div for="Addr" class="col-sm-3 control-label">收货地址：</div>
+                    <div class="col-sm-6 address" id="areaLabel">
+                        <input  type="text" name="Addr" id="Addr" readonly placeholder="请选择地区" value="{$address.address}">
+                    </div>
+                    <div class="col-sm-4 col-xs-12"><div class="Validform_checktip "></div></div>
+                </div>
+                <div class="form-group fps">
+                    <div for="address_detail" class="col-sm-3 control-label">详细地址：</div>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="address_detail" name="address_detail" placeholder="请输入详细地址"  value="{$address.address_detail}">
+                    </div>
+                    <div class="col-sm-4 col-xs-12"><div class="Validform_checktip "></div></div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="istop" value="1"> 默认地址
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" style="width: 30%" id="canceledit">返回</button>
+                <button type="button" class="btn btn-primary" style="width: 30%;" id="saveedit">修改地址</button>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="addressSelectWrapper">
+    <div id="addressSelect">
+        <div class="tip">
+            <h3>所在地区</h3>
+            <button type="button" id="cancel"></button>
+        </div>
+        <div id="address">
+            <ul class="selected-address">
+                <li class="lastarea" id="lastprovince">请选择</li>
+                <li class="lastarea" id="lastcity">请选择</li>
+                <li class="lastarea" id="lastarea">请选择</li>
+                <li class="lastarea" id="lasttown">请选择</li>
+            </ul>
+            <div class="address-content">
+                <ul id="province"></ul>
+                <ul id="city"></ul>
+                <ul id="area"></ul>
+                <ul id="town"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+<script src="__ROOT__/static/js/jquery-3.3.1.js"></script>
+<script src="__ROOT__/static/js/Validform_v5.3.2_min.js"></script>
+<script src="__ROOT__/static/js/my/city.js"></script>
+<script src="__ROOT__/static/js/address.js"></script>
+<script src="__ROOT__/static/js/my/perfect.js"></script>
+<script>
+    $("#canceledit").click(function () {
+        document.location.reload();
+    });
+    $(function(){
+        var status = '<?php echo $address['status'] ?>';
+        if(status == 1){
+            $("input[type='checkbox']").attr('checked', 'true');
+        }
+        // 地址选择器遮罩层打开与关闭
+        $("#areaLabel").click(function(e){
+            $("#addressSelectWrapper").show();
+            e.stopPropagation();
+        });
+        $(document).click(function () {
+            $("#addressSelectWrapper").hide();
+        });
+        $("#cancel").click(function () {
+            $("#addressSelectWrapper").hide();
+        });
+        $("#addressSelect").click(function (e) {
+            e.stopPropagation();
+        });
+
+        initAddress();
+    });
+
+    //初始化地址选择
+    function initAddress() {
+        $("#Addr").cityLinkage({
+            containerId: 'addressSelectWrapper',
+            getSelectedCode:function(){return $("#Addr").data("code");},
+            callback:function(data) {
+                $("#Addr").val(data.addr).data("code",data.town.code).data("hasCity",data.hasCity);
+
+                alert($("#Addr").data("hasCity"));
+            }
+        });
+    }
+    var url = "<?php echo config('__INDEX__') ?>";
+</script>

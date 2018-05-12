@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="__ROOT__/static/scripts/jquery-1.8.3.js"></script>
+        <script src="__ROOT__/static/scripts/jquery.reveal.js"></script>
+        <script src="__ROOT__/static/scripts/jquery.cookie.js"></script>
+        <link rel="icon" href="__ROOT__/static/images/favicon.ico" type="image/x-icon" />
+        <!--[if lte IE 10]>
+        <script src="__ROOT__/static/scripts/requestAnimationFrame.js"></script>
+        <![endif]-->
+        <link rel=stylesheet href="__ROOT__/static/style/reset.css">
+        <link rel=stylesheet href="__ROOT__/static/style/common.css">
+        <link rel=stylesheet href="__ROOT__/static/style/base.css">
+        <link rel=stylesheet href="__ROOT__/static/style/account.css">
+        <link rel=stylesheet href="__ROOT__/static/style/header.css">
+        <link rel=stylesheet href="__ROOT__/static/style/reveal.css">
+        <link rel=stylesheet href="__ROOT__/static/style/login.css">
+        <link rel=stylesheet href="__ROOT__/static/style/menu02.css">
+        <link rel=stylesheet href="__ROOT__/static/style/order.css">
+        <link rel=stylesheet href="__ROOT__/static/style/footer_2.css">
+        <title>订饭组</title>
+    </head>
+    <body>
+        <!--header部分-->
+        {include file="public/header" /}
+        <!--主体-->
+        <div class="content">
+            <!--左侧导航-->
+            {include file="public/left" /}
+            <!--右侧内容-->
+            <div class="content-right fl">
+                <div class="summary fl">
+                    <h3 class="summary-header">我的积分</h3>
+                </div>
+                <div>
+                    <div class="account-balance fl">
+                        您的剩余积分：<span><span id="score-value">{$user.score}</span></span>
+                    </div>
+                    <div class="account-recharge fl">
+                        <button id="recharge" class="btn2">兑换余额</button>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="footer-content">
+              <div class="footer-content-entrance">
+                <a class="footer-content-link" href="/about.html?p=guanyuwomen">关于我们</a>
+                <span class="footer-content-separator">|</span>
+                <a class="footer-content-link footer-content-weixing">关注微信
+                <img class="weixin-pic" src="__ROOT__/static/images/qr_code.jpg">
+                </a>
+                <span class="footer-content-separator">|</span> 
+                <a class="footer-content-link" href="/about.html?p=tousujianyi">投诉建议</a>
+                <span class="footer-content-separator">|</span>
+                <a class="footer-content-link kaidian_address" href="/about.html?p=shangjiaruzhu">商家入驻</a>
+
+              </div>
+              <div class="footer-content-copyright">©2016 dingfanzu.com <a target="_blank">京ICP证020666号</a> </div>
+        </div>
+        <!--提示框-->
+        {include file="public/tip" /}
+        
+        <script src="__ROOT__/static/scripts/common.js"></script>
+        <script src="__ROOT__/static/scripts/md5.js"></script>
+        <script src="__ROOT__/static/scripts/login.js"></script>
+        <script src="__ROOT__/static/scripts/cart.lib.js"></script>
+        <script src="__ROOT__/static/scripts/cart.js"></script>
+        <script src="__ROOT__/static/scripts/header.js"></script>
+        <script src="__ROOT__/static/scripts/account.js"></script>
+        <script src="__ROOT__/static/scripts/myInfo.js"></script>
+        <script src="__ROOT__/static/scripts/footer.js"></script>
+        <script type="text/javascript">
+                $(function(){ 
+
+                    //初始化积分
+                    var score=my_GetValue("jifen");
+                    if(score>0){ 
+                        $("#score-value").html(score);
+                    }else{ 
+                        $("#score-value").html("0");
+                    }
+                });
+        </script>
+    </body>
+</html>

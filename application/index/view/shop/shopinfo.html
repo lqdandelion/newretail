@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="“订饭组（dingfanzu.com）”是北京地区知名的在线外卖订餐O2O平台，是写字楼白领专属订餐网站。已覆盖北京数百个写字楼，数十万用户，聚集了数千家餐饮商户。订外卖，找订饭组。" />
+    <script src="__ROOT__/static/scripts/jquery-1.8.3.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.reveal.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.cookie.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.fly.min.js"></script>
+    <script src="__ROOT__/static/scripts/common.js"></script>
+    <link rel="icon" href="__ROOT__/static/images/favicon.ico" type="image/x-icon" />
+    <!--[if lte IE 10]>
+    <script src="__ROOT__/static/scripts/requestAnimationFrame.js"></script>
+    <![endif]-->
+
+    <link rel=stylesheet href="__ROOT__/static/style/reset.css">
+    <link rel=stylesheet href="__ROOT__/static/style/common.css">
+    <link rel=stylesheet href="__ROOT__/static/style/base.css">
+    <link rel=stylesheet href="__ROOT__/static/style/shop.css">
+    <link rel=stylesheet href="__ROOT__/static/style/header.css">
+    <link rel=stylesheet href="__ROOT__/static/style/shopcart.css">
+    <link rel=stylesheet href="__ROOT__/static/style/leftmenu.css">
+    <link rel=stylesheet href="__ROOT__/static/style/reveal.css">
+    <link rel=stylesheet href="__ROOT__/static/style/login.css">
+    <title>订饭组</title>
+</head>
+<body>
+
+<!--菜品展示-->
+{include file="shop/food" /}
+<!--header部分-->
+{include file="public/header" /}
+<!--内容部分-->
+<div class="shop-content">
+
+    <div class="gonggao-wrap">
+        <div class="gonggao">
+            <b> 公告：周一到周五午餐时间，11:00-11:30订 12：15前到~ 催单电话：13598825555</b>
+        </div>
+    </div>
+
+
+    <div class="leftmenu">
+        <dl>
+            <dt>
+                <img class="shop-icon" src="__ROOT__/{$shopInfo.shop_icon}" >
+                <span class="shop-name" shopId="{$shopInfo.shop_id}" >
+                        {$shopInfo.shop_name}
+                        </span>
+                <span class="switch-address">
+                        <a class="switch-address" href="place.html">[切换地址]</a>
+                        </span>
+            </dt>
+            {volist name="cate" id="vo"}
+                {eq name="vo.cate_id" value="$actId"}
+                <dd class="active leftmenu-item"><a href="{:url('shop/getshopinfo',['id'=>$shopInfo.shop_id,'cateId'=>$vo.cate_id])}" >{$vo.cate_name}</a></dd>
+                {else/}
+                <dd class="leftmenu-item"><a href="{:url('shop/getshopinfo',['id'=>$shopInfo.shop_id,'cateId'=>$vo.cate_id])}" >{$vo.cate_name}</a></dd>
+                {/eq}
+            {/volist}
+        </dl>
+    </div>
+    <div class="shop-cart shadow n">
+        <div class="shop-head">
+            购物车<a class="shop-clear">[清空]</a>
+        </div>
+        <div class="shop-body">
+
+
+            <div class="isnull">
+                <span></span>
+                <b>购物车空空如也</b>
+            </div>
+        </div>
+        <div class="shop-bottom">
+            <div class="bottom-price fl">总计：￥<label>32</label>
+            </div>
+            <div class="bottom-icon"></div>
+            <div class="bottom-pay fr">
+                <a id="cart-pay">结算</a>
+            </div>
+        </div>
+    </div>
+    <ul id="subnav" class="subnav subnav-shadow n">
+        <li><a href="account/setting.html" target="">账号设置</a></li>
+        <li><a href="account/order.php" target="">我的订单</a></li>
+        <li><a href="account/balance.html" target="">我的余额</a></li>
+        <li><a href="account/cash.html" target="">代金券</a></li>
+        <li><a href="account/address.html" target="">我的地址</a></li>
+        <li><a id="sub-logout" href="" target="">退出</a></li>
+    </ul>
+</div>
+
+{include file="public/login" /}
+
+<script src="__ROOT__/static/scripts/md5.js"></script>
+<script src="__ROOT__/static/scripts/myInfo.js"></script>
+<script src="__ROOT__/static/scripts/login.js"></script>
+<script src="__ROOT__/static/scripts/cart.lib.js"></script>
+<script src="__ROOT__/static/scripts/cart.js"></script>
+<script src="__ROOT__/static/scripts/header.js"></script>
+<script src="__ROOT__/static/scripts/shop.js"></script>
+<script src="__ROOT__/static/js/shop.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //存商家信息到cookie
+        var shopId=$('.shop-name').attr('shopId');
+        var shopName=$('.shop-name').attr('shopName');
+        var shopPhone=$('.shop-phone').attr('shopPhone');
+        $.cookie('shopId',shopId,{expires:365,path:'/'});//写cookie
+        //初始化购物车
+        initCart();
+        $('.shop-cart').show();
+
+        //左侧导航
+        var zh=$(window).height();
+        var leftHeight=zh-55;
+        $(".leftmenu").height(leftHeight);
+        //公告宽度
+        processGonggao();
+
+        //菜品div宽度
+        processMenuItems();
+
+        //购物车
+        processShopItem();
+
+
+        $('.gonggao').show();
+        $('.content-middle').show();
+
+
+        //监听窗口尺寸
+        $(window).resize(function(){
+            //设置左侧的高
+            var zh=$(window).height();
+            var leftHeight=zh-55;
+            $(".leftmenu").height(leftHeight);
+            //公告宽度
+            processGonggao();
+
+            //菜品div宽度
+            processMenuItems();
+
+            //购物车
+            processShopItem();
+
+        });
+
+
+
+        //左侧点击
+      /*  $('.leftmenu-item a').click(function(){
+            //变样式
+            $(this).parents('.leftmenu').find('.leftmenu-item').removeClass('active');
+            $(this).parent().addClass('active');
+            //变菜品
+           /!* var i=$(this).parents('dd').attr('id');
+            $('.menu-wrap').hide();
+            var m="#"+i.replace('i','m');
+            $(m).fadeIn(600);*!/
+        });*/
+
+
+        //菜品相关
+        function processMenuItems(){
+            var zw=$(window).width();
+            var shopCartWidth=$('.shop-cart').width();
+            var leftMenuWidth=$('.leftmenu').width();
+            var mw=zw-shopCartWidth-leftMenuWidth;
+            $(".content-middle").width(mw);
+            $(".content-middle").css('left', leftMenuWidth);
+            $(".menu-wrap").width(mw);
+
+            var percent='48%';
+            var marginLeft=0;
+
+            if(mw>=700){
+                percent='48%';
+                marginLeft=mw-mw*0.48*2;
+                if(zw<1240){
+                    $(".stars").css('bottom', 40);
+                    $(".price").css('left', 140);
+                    // $(".buy").css('left', 180);
+                    $(".price").css('right', '');
+                    $(".buy").css('right', 10);
+                }else{
+                    //样式归位
+                    $(".stars").css('bottom', 5);
+                    $(".price").css('left', '');
+                    // $(".buy").css('left', '');
+                    $(".price").css('right', 50);
+                    $(".buy").css('right', 10);
+                }
+            }
+            else if(mw<700){
+                percent='96%';
+                marginLeft=mw-mw*0.96;
+
+                if(zw<660){
+                    $(".stars").css('bottom', 40);
+                    $(".price").css('left', 140);
+                    // $(".buy").css('left', 180);
+                    $(".price").css('right', '');
+                    $(".buy").css('right', 10);
+                }else{
+                    //样式归位
+                    $(".stars").css('bottom', 5);
+                    $(".price").css('left', '');
+                    // $(".buy").css('left', '');
+                    $(".price").css('right', 50);
+                    $(".buy").css('right', 10);
+                }
+            }
+
+            $(".menu-item").css('width', percent);
+            $(".item-wrap").css('margin-left', marginLeft);
+
+
+        }
+
+        //公告宽度
+        function processGonggao(){
+            var zw=$(window).width();
+            var shopCartWidth=$('.shop-cart').width();
+            var leftMenuWidth=$('.leftmenu').width();
+            var gw=zw-shopCartWidth-leftMenuWidth-40;
+            var gw_wrap=gw+50;
+            $(".gonggao").width(gw);
+            $(".gonggao").css('left', leftMenuWidth+10);
+            $(".gonggao-wrap").width(gw_wrap);
+            $(".gonggao-wrap").css('left',leftMenuWidth );
+        }
+
+
+
+
+    });
+
+    var url = "<?php echo config('__INDEX__') ?>";
+    var flag = false;
+    function getFood(id) {
+        var data = {
+            cate_id:id
+        };
+        $.ajax({
+            //几个参数需要注意一下
+            type: "GET",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: url+'/shop/getfood',//url
+            data: data,
+            success: function (data) {
+                console.log(data);//打印服务端返回的数据(调试用)
+                if (data['data'] == 0) {
+                    flag = true;
+                    alert(JSON.stringify(data));
+
+                    if(data['comm'] != ""){
+                        var str = '<div  class="menu-wrap">';
+                        $.each(data['comm'],function(index,item){
+                            str +=
+                                '<div class="menu-item" item-id=" '+ item.comm_id +'"><div class="item-wrap">\n' +
+                                '                <img src="__ROOT__/'+ item.comm_pic +'" height="130" width="130">\n' +
+                                '                <div class="item-detail">\n' +
+                                '                    <span class="name ">' + item.comm_name + '</span>\n' +
+                                '                    <span class="price"  item-price="15">￥'+item.comm_price+'</span>\n' +
+                                '                    <img class="buy" src="__ROOT__/static/images/icon_buy.png" >\n' +
+                                '\n' +
+                                '                    <ul class="stars" data-node="star">\n' +
+                                '                        <li data-value="1" class="active"></li>\n' +
+                                '                        <li data-value="2" class="active"></li>\n' +
+                                '                        <li data-value="3" class="active"></li>\n' +
+                                '                        <li data-value="4" class="active"></li>\n' +
+                                '                        <li data-value="5" class=""></li>\n' +
+                                '                    </ul>\n' +
+                                '                </div>\n' +
+                                '            </div>\n' +
+                                '        </div>'
+                        });
+                        str += '</div>';
+                        $("#food").html(str);
+                        var fileref = document.createElement("link");
+                        fileref.setAttribute("rel", "stylesheet");
+                        fileref.setAttribute("type", "text/css");
+                        fileref.setAttribute("href", "__ROOT__/static/style/shop.css");
+                    }
+                } else if (data['data'] == 1) {
+                    alert(data['msg']);
+                }
+            },
+            error: function () {
+                alert("服务器异常！");
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

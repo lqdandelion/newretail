@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="__ROOT__/static/scripts/jquery-1.8.3.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.reveal.js"></script>
+    <script src="__ROOT__/static/scripts/jquery.cookie.js"></script>
+    <link rel="icon" href="__ROOT__/static/images/favicon.ico" type="image/x-icon" />
+    <script type='text/javascript' src='__ROOT__/static/js/city/citylist.js'></script>
+    <script type='text/javascript' src='__ROOT__/static/js/querycity.js'></script>
+    <link href='__ROOT__/static/css/city/cityquery.css' rel="stylesheet" type="text/css" />
+    <!--[if lte IE 10]>
+    <script src="__ROOT__/static/scripts/requestAnimationFrame.js"></script>
+    <![endif]-->
+    <link rel=stylesheet href="__ROOT__/static/style/reset.css">
+    <link rel=stylesheet href="__ROOT__/static/style/common.css">
+    <link rel=stylesheet href="__ROOT__/static/style/base.css">
+    <link rel=stylesheet href="__ROOT__/static/style/account.css">
+    <link rel=stylesheet href="__ROOT__/static/style/header.css">
+    <link rel=stylesheet href="__ROOT__/static/style/reveal.css">
+    <link rel=stylesheet href="__ROOT__/static/style/login.css">
+    <link rel=stylesheet href="__ROOT__/static/style/menu02.css">
+    <link rel=stylesheet href="__ROOT__/static/style/order.css">
+    <link rel=stylesheet href="__ROOT__/static/style/footer_2.css">
+    <link rel=stylesheet href="__ROOT__/static/style/form.css">
+    <title>订饭组</title>
+</head>
+<body>
+<!--header部分-->
+{include file="public/header" /}
+<!--主体-->
+<div class="content">
+    <!--左侧导航-->
+    {include file="public/left" /}
+    <!--右侧内容-->
+    <div class="content-right fl">
+        <div class="summary fl">
+            <h3 class="summary-header">账户设置</h3>
+        </div>
+        <div class="accountform" id="form-settings">
+            <div>
+                <div class="accountformfield">
+                    <label>用户名</label><input id="username" placeholder="请输入用户名" value="{$user.username}">
+                    <div class="accountformfield-hint form-error">
+                        <span id="error-username"></span>
+                    </div>
+                </div>
+                <div class="accountformfield">
+                    <label>姓名</label><input id="name" placeholder="请输入您的姓名" value="{$user.name}">
+                    <div class="accountformfield-hint form-error">
+                        <span id="error-name"></span>
+                    </div>
+                </div>
+                <div class="accountformfield phonefield">
+                    <label>手机号</label><span id="pn"></span>
+                    <div class="accountformfield-hint">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="accountformfield passwordfield">
+                    <label>密码</label><span>******</span>
+                    <button id="btn-update-pwd">修改密码</button>
+                    <div class="accountformfield-hint">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="accountform-buttons">
+                <a id="save-settings" class="save-btn" href="#">保存</a>
+            </div>
+        </div>
+
+        <div class="accountform n" id="form-pwd">
+            <div>
+                <div class="accountformfield">
+                    <label>原密码</label><input id="pwd" placeholder="">
+                    <div class="accountformfield-hint form-error">
+                        <span id="error-pwd"></span>
+                    </div>
+                </div>
+                <div class="accountformfield">
+                    <label>新密码</label><input id="pwd2" placeholder="">
+                    <div class="accountformfield-hint form-error">
+                        <span id="error-pwd2"></span>
+                    </div>
+                </div>
+                <div class="accountformfield">
+                    <label>确认新密码</label><input id="pwd3" placeholder="">
+                    <div class="accountformfield-hint form-error">
+                        <span id="error-pwd3"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="accountform-buttons">
+                <a id="save-new-pwd" class="save-btn" href="#">修改</a>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="footer-content">
+    <div class="footer-content-entrance">
+        <a class="footer-content-link" href="/about.html?p=guanyuwomen">关于我们</a>
+        <span class="footer-content-separator">|</span>
+        <a class="footer-content-link footer-content-weixing">关注微信
+            <img class="weixin-pic" src="/images/qr_code.jpg">
+        </a>
+        <span class="footer-content-separator">|</span>
+        <a class="footer-content-link" href="/about.html?p=tousujianyi">投诉建议</a>
+        <span class="footer-content-separator">|</span>
+        <a class="footer-content-link kaidian_address" href="/about.html?p=shangjiaruzhu">商家入驻</a>
+
+    </div>
+    <div class="footer-content-copyright">©2016 dingfanzu.com <a target="_blank">京ICP证020666号</a> </div>
+</div>
+
+<!--提示框-->
+{include file="public/tip" /}
+
+<script src="__ROOT__/static/scripts/common.js"></script>
+<script src="__ROOT__/static/scripts/md5.js"></script>
+<script src="__ROOT__/static/scripts/login.js"></script>
+<script src="__ROOT__/static/scripts/cart.lib.js"></script>
+<script src="__ROOT__/static/scripts/cart.js"></script>
+<script src="__ROOT__/static/scripts/header.js"></script>
+<script src="__ROOT__/static/scripts/account.js"></script>
+<script src="__ROOT__/static/scripts/myInfo.js"></script>
+<script src="__ROOT__/static/scripts/footer.js"></script>
+
+<script type="text/javascript">
+    $(function(){
+        initSettings();
+        //修改密码
+        $("#btn-update-pwd").click(function(event) {
+            $("#form-settings").hide();
+            $("#form-pwd").show();
+        });
+        $("#cancel-save").click(function(event) {
+            $("#form-settings").show();
+            $("#form-pwd").hide();
+        });
+
+
+        //保存设置
+        $("#save-settings").click(function(event) {
+            saveSettings();
+        });
+
+        //保存新密码
+        $("#save-new-pwd").click(function(event) {
+            saveNewPwd();
+        });
+
+    });
+
+    function initSettings(){
+        var userId=$.cookie("userId");
+        var name=my_GetValue("name");
+        var place=my_GetValue("place");
+        var email=my_GetValue("email");
+
+        if(place){
+            $("#myFanzu").html(place);
+        }
+        $("#pn").html(userId);
+        if(name&&name.length>0){
+            $("#name").val(name);
+        }
+        if(email&&email.length>0){
+            $("#email").val(email);
+        }
+    }
+
+    function saveSettings(){
+        var username=$("#username").val().trim();
+        var name=$("#name").val().trim();
+        if(username.length<=0){
+            $("#error-username").html("用户名不能为空");
+            return;
+        }
+        var user = {
+            'username':username,
+            'name':name,
+        };
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: url+'/config/savesetting',//url
+            data: user,
+            success: function (data) {
+                console.log(data);//打印服务端返回的数据(调试用)
+                if (data['data'] == 0) {
+                    my_SaveValue("name",name);
+                    showAlert("保存成功");
+                }else if(data['data'] == 1){
+                    showAlert("保存失败");
+                }
+            },
+            error: function () {
+                showAlert("服务器异常，请重试！");
+            }
+        });
+    }
+    function checkPassWord(password) {
+        var str = password;
+        if (str == null || str.length < 6 || str.length > 10){
+            return false;
+        }
+        var reg=new RegExp(/^(?![^a-zA-Z]+$)(?!\D+$)/);
+        if (reg.test(str))
+            return true;
+        return false;
+    }
+
+    //保存新密码
+    function saveNewPwd(){
+        var phone=$.cookie("userId");
+        var pwd=$("#pwd").val().trim();
+        var pwd2=$("#pwd2").val().trim();
+        var pwd3=$("#pwd3").val().trim();
+
+        $("#error-pwd,#error-pwd2,#error-pwd3").html("");
+        if(!checkPassWord(pwd) ){
+            $("#error-pwd").html("密码必须由6-10位的字母和数字组成");
+            return;
+        }else if(!checkPassWord(pwd2)){
+            $("#error-pwd2").html("密码必须由6-10位的字母和数字组成");
+            return;
+        }else if(pwd2!=pwd3){
+            $("#error-pwd3").html("两次密码不一致");
+            return;
+        }
+        var data = {
+            phone:phone,
+            pwd:pwd,
+            pwd2:pwd2,
+            pwd3:pwd3,
+        };
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: url+'/config/savenewpwd',//url
+            data: data,
+            success: function (data) {
+                console.log(data);//打印服务端返回的数据(调试用)
+                if (data['data'] == 0) {
+                    showAlert('修改成功');
+                    document.location.reload();
+                }else if(data['data'] == 1){
+                    showAlert(data['msg']);
+                }
+            },
+            error: function () {
+                showAlert("服务器异常，请重试！");
+            }
+        });
+    }
+    var url = "<?php echo config('__INDEX__') ?>";
+</script>
+</body>
+</html>
+<script>
+    var one='<?php echo $one ?>';
+    var two='<?php echo $two ?>';
+    var three='<?php echo $three ?>';
+    var four='<?php echo $four  ?>';
+    var five='<?php echo $five ?>';
+    var six='<?php echo $six ?>';
+    var city='<?php echo $city ?>';
+    one = JSON.parse(one);
+    two = JSON.parse(two);
+    three = JSON.parse(three);
+    four = JSON.parse(four);
+    five  = JSON.parse(five);
+    six  = JSON.parse(six);
+    city = JSON.parse(city);
+    var labelFromcity = new Array();
+    labelFromcity ['热门城市'] = new Array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40);
+    labelFromcity ['A-E'] = one;
+    labelFromcity ['F-I'] = two;
+    labelFromcity ['J-M'] = three;
+    labelFromcity ['N-R'] = four;
+    labelFromcity ['S-W'] = five;
+    labelFromcity ['X-Z'] = six;
+    var hotList = new Array(14,15,16,17,18,19);
+
+    $(document).ready(function(){
+        $('#now').querycity({'data':city,'tabs':labelFromcity,'hotList':hotList});
+    });
+</script>

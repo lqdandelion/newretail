@@ -1,0 +1,24 @@
+<div  id="food" class="content-middle n">
+    <div  class="menu-wrap">
+        {volist name="comm" id="vo"}
+        <div class="menu-item" item-id="{$vo.comm_id}">
+            <div class="item-wrap">
+                <img src="__ROOT__/{$vo.comm_pic}" height="130" width="130">
+                <div class="item-detail">
+                    <span class="name ">{$vo.comm_name}</span>
+                    <span class="price"  item-price="{$vo.comm_price}">￥{$vo.comm_price}</span>
+                    <img class="buy" src="__ROOT__/static/images/icon_buy.png" >
+
+                    <ul class="stars" data-node="star">
+                        <li data-value="1" class="active"></li>
+                        <li data-value="2" class="active"></li>
+                        <li data-value="3" class="active"></li>
+                        <li data-value="4" class="active"></li>
+                        <li data-value="5" class=""></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {/volist}
+    </div>
+</div>

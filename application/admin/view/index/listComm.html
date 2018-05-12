@@ -1,0 +1,119 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+
+    <link rel=stylesheet href="__ROOT__/static/css/reset.css">
+    <link href="__ROOT__/static/css/admin.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="__ROOT__/static/css/bootstrap-admin.css">
+    <link href="__ROOT__/static/css/backstage.css"  rel="stylesheet"  type="text/css"/>
+    <link href="__ROOT__/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="details">
+    <div class="details_operation clearfix">
+        <!-- <div class="bui_select">
+             <input type="button" value="添加分类" class="btn btn-primary"  onclick="addCate()">
+         </div>-->
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-xs-1" ></div>
+            <div class="col-lg-2 col-md-2 col-xs-2" ><a class="btn blue" href="{:url('commodity/toaddcomm')}"> <i class="fa fa-plus"></i>增加商品</a></div>
+            <div class="col-lg-3 col-md-3 col-xs-3" ></div>
+            <div class="col-lg-2 col-md- col-xs-2" >
+                <input type="text" class="form-control" placeholder="商品名称搜索" id="comm_name" name="comm_name" value="{$comm_name}"/>
+            </div>
+            <div class="col-lg-2 col-md- col-xs-2" >
+                <input type="text" class="form-control" placeholder="分类名称搜索" id="cate_name" name="cate_name" value="{$cate_name}"/>
+            </div>
+            <div class="col-lg-1 col-md-1 col-xs-1 bui_select" >
+                <input type="button" value="查询" class="btn btn-primary"  onclick="searchByName()">
+            </div>
+        </div>
+    </div>
+    <!--表格-->
+    <table class="table table-hover" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <th align="center" width="15%">商品编号</th>
+            <th align="center" width="10%">商品名称</th>
+            <th align="center" width="10%">商品分类</th>
+            <th align="center" width="10%">价格</th>
+            <th align="center" width="10%">商品图像</th>
+            <th align="center" width="10%">商品状态</th>
+            <th align="center" width="15%">发布时间</th>
+            <th align="center" width="20%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="vo"}
+        <tr style="font-size: 14px;">
+            <td align="center"  width="15%" >{$vo.comm_id}</td>
+            <td align="center"  width="10%" >{$vo.comm_name}</td>
+            <td align="center"  width="10%" >{$vo.cate_name}</td>
+            <td align="center" width="10%" >{$vo.comm_price}</td>
+            <td align="center" width="10%" ><img src="__ROOT__/{$vo.comm_pic}" style="height: 35px;width: 35px"/></td>
+            <td align="center" width="10%" >{eq name="vo.status" value="0"}上架{else/}下架{/eq}</td>
+            <td align="center" width="15%" >{$vo.create_time}</td>
+            <td align="center" width="20%" >
+                <a class="btn btn-default btn-xs" href="{:url('commodity/toeditcomm','id='.$vo['id'])}">修改</a>　
+                {eq name="vo.status" value="0"}
+                    <a class="btn btn-default btn-xs" href="{:url('commodity/downcomm','id='.$vo['id'])}" onclick="down()">下架</a>
+                    {else/}
+                    <a class="btn btn-primary btn-xs" href="{:url('commodity/upcomm','id='.$vo['id'])}" onclick="up()"> 上架</a>
+                {/eq}
+
+
+                　<a class="btn btn-default btn-xs" href="{:url('commodity/delcomm','id='.$vo['id'])}" onclick="delcomm()"><i class="fa fa-trash-o"></i> 删除</a>
+            </td>
+
+        </tr>
+
+            {/volist}
+
+
+        </tbody>
+    </table>
+<!--
+    <div style="position: fixed; text-align: right">
+-->
+        {$page}
+<!--
+    </div>
+-->
+</div>
+<script type="text/javascript" src="__ROOT__/static/js/jquery-3.3.1.min.js"></script>
+<script src="__ROOT__/static/js/my/perfect.js"></script>
+<script src="__ROOT__/static/js/my/commodity.js"></script>
+<script src="__ROOT__/static/js/bootstrap.min.js"></script>
+<script src="__ROOT__/static/js/common.js"></script>
+<script src="__ROOT__/static/js/my/category.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    var url = "<?php echo config('__ADMIN__') ?>";
+    function delcomm() {
+        if (!confirm("确认要删除？")) {
+            window.event.returnValue = false;
+        }
+    }
+
+    function down() {
+        if (!confirm("确认上架此商品？")) {
+            window.event.returnValue = false;
+        }
+    }
+    function up() {
+        if (!confirm("确认下架此商品？")) {
+            window.event.returnValue = false;
+        }
+    }
+    function searchByName() {
+        var comm = document.getElementById('comm_name').value;
+
+        var cate = document.getElementById('cate_name').value;
+
+        window.location.href=url+"/commodity/listcomm?comm = "+ comm + "&cate = " + cate;
+    }
+</script>

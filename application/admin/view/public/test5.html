@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>{$webtitle}－管理后台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+    <link href="__ROOT__/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="__ROOT__/static/css/bootstrap-theme.css" rel="stylesheet" type="text/css" />
+    <link href="__ROOT__/static/css/admin.css" rel="stylesheet" type="text/css" />
+    <link href="__ROOT__/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="__ROOT__/static/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/static/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/static/css/timepicker.less"  type="text/css"/>
+    <link href="__ROOT__/static/css/clockpicker.css" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/static/css/webuploader.css" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/static/css/file.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__ROOT__/static/css/address.css">
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="__ROOT__/static/js/html5shiv.min.js"></script>
+    <script src="__ROOT__/static/js/respond.min.js"></script>
+    <script src="__ROOT__/static/js/bootstrap-timepicker.js"></script>
+
+    <![endif]-->
+    <!-- END THEME STYLES -->
+
+</head>
+<!-- BEGIN BODY -->
+<body>
+
+<div>
+    <img id="verify_img" src="{:captcha_src()}" alt="验证码" onclick="refreshVerify()">
+    <a href="javascript:refreshVerify()">点击刷新</a>
+</div>
+<form action="{:url('index/check')}" method="post">
+    <input type="text" name = "verify">
+    <input type="submit" value = "提交">
+</form>
+<script>
+    function refreshVerify() {
+        var ts = Date.parse(new Date())/1000;
+        var img = document.getElementById('verify_img');
+        img.src = "/captcha?id="+ts;
+    }
+</script>
+</body>
+<!-- END BODY -->
+</html>

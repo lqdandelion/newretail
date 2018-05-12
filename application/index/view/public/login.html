@@ -1,0 +1,146 @@
+<div id="myModal" class="reveal-modal">
+    <div id="loginform" class="loginform n">
+        <div>
+            <div class="loginformfield">
+                <span class="form-icon"><img src="__ROOT__/static/images/logo.png"  style="height: 70px;width: 100px"></span>
+            </div>
+            <div class="loginformfield">
+                    <span class="form-title">
+                    <h2>使用手机号登录订饭组</h2>
+                    </span>
+            </div>
+            <div class="loginformfield">
+                <label class="field-name">手机号:</label>
+                <input id="phone-1" placeholder="请输入您的手机号">
+                <div class="loginformfield-hint form-error">
+                    <span id="login-phone-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield">
+                <label class="field-name">密码:</label>
+                <span class="fp"><a href="#" id="forget-password" class="forget-password">忘记密码？</a></span>
+                <input id="login-pwd" type="password" placeholder="请输入密码">
+                <div class="loginformfield-hint form-error">
+                    <span id="login-pwd-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield " style="height: 98px">
+                <label class="field-name" style="width: 100%;">验证码:</label>
+                <input  id="pwd-confirm-code"  placeholder="请输入验证码" style="width: 48%">
+                <img id='verifyImage' class="phone-code-btn" src="{:captcha_src()}" alt="captcha" onclick="javascript:this.src='{:captcha_src()}?tm='+Math.random();" style="width: 50%;position:absolute;"/>
+
+
+                <input type="hidden" id="pwd-hid-code">
+                <div class="loginformfield-code-hint form-error">
+                    <span id="pwd-code-error"></span>
+                </div>
+            </div>
+        </div>
+        <div class="loginform-buttons">
+            <a id="checkin" class="save-btn" href="#">登录</a>
+            <span >还没有账号？<a id="register">创建一个</a></span>
+        </div>
+    </div>
+    <div id="registerform" class="registerform n">
+        <div>
+            <div class="loginformfield">
+                <span class="form-icon"><img src="__ROOT__/static/images/logo.png" style="height: 70px;width: 100px"></span>
+            </div>
+            <div class="loginformfield">
+                    <span class="form-title">
+                    <h2>创建新账号</h2>
+                    </span>
+            </div>
+            <div class="loginformfield">
+                <span><label class="field-name" style="width: 18%;">用户名:</label></span>
+                <input id="username" style="width: 80%" placeholder="请输入用户名，至多10个字">
+                <div class="loginformfield-hint form-error">
+                    <span id="username-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield">
+                <span><label class="field-name" style="width: 18%;">手机号:</label></span>
+                <input id="phone-2" style="width: 80%" placeholder="请输入您的手机号">
+                <div class="loginformfield-hint form-error">
+                    <span id="register-phone-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield field-confirm-code">
+                <span><label class="field-name" style="width: 18%">验证码:</label></span>
+                <input   id="register-confirm-code" placeholder="请输入验证码">
+                <button id="register-code" class="phone-code-btn">获取验证码</button>
+                <input type="hidden" id="register-hid-code">
+                <div class="loginformfield-code-hint form-error">
+                    <span id="register-code-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield">
+                <span><label class="field-name" style="width: 18%">密&nbsp;&nbsp;&nbsp;&nbsp;码:</label></span>
+                <input id="register-pwd" type="password" style="width: 80%;" placeholder="请输入6位以上字母或数字密码">
+                <div class="loginformfield-hint form-error">
+                    <span id="register-pwd-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield">
+                <span><label class="field-name" style="width: 18%">确认密码:</label></span>
+                <input id="register-repwd" type="password" style="width: 80%;" placeholder="请再次输入密码">
+                <div class="loginformfield-hint form-error">
+                    <span id="register-repwd-error"></span>
+                </div>
+            </div>
+        </div>
+        <div class="loginform-buttons">
+            <a id="create" class="save-btn" href="#">创建</a>
+            <span >已经有账号？<a id="login">登录</a></span>
+        </div>
+    </div>
+    <div id="chpwdform" class="chpwdform n">
+        <div>
+            <div class="loginformfield">
+                <span class="form-icon"><img src="__ROOT__/static/images/logo.png" style="height: 70px;width: 100px"></span>
+            </div>
+            <div class="loginformfield">
+                    <span class="form-title">
+                    <h2>修改密码</h2>
+                    </span>
+            </div>
+            <div class="loginformfield">
+                <span><label class="field-name" style="width: 18%">手机号:</label></span>
+                <input id="phone-3" placeholder="请输入您的手机号" style="width: 80%">
+                <div class="loginformfield-hint form-error">
+                    <span id="chpwd-phone-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield field-confirm-code">
+                <span><label class="field-name"  style="width: 18%">验证码:</label></span>
+                <input  id="chpwd-confirm-code"  placeholder="请输入验证码">
+                <button id="chpwd-code" class="phone-code-btn" >获取验证码</button>
+                <input type="hidden" id="chpwd-hid-code">
+                <div class="loginformfield-code-hint form-error">
+                    <span id="chpwd-code-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield">
+                <span><label class="field-name" style="width: 18%">新密码:</label></span>
+                <input id="chpwd-pwd" type="password" style="width: 80%" placeholder="请输入6位以上字母或数字密码">
+                <div class="loginformfield-hint form-error">
+                    <span id="chpwd-pwd-error"></span>
+                </div>
+            </div>
+            <div class="loginformfield">
+                <span><label class="field-name" style="width: 18%">确认密码:</label></span>
+                <input id="chpwd-repwd" type="password" style="width: 80%" placeholder="请再次输入密码">
+                <div class="loginformfield-hint form-error">
+                    <span id="chpwd-repwd-error"></span>
+                </div>
+            </div>
+        </div>
+        <div class="loginform-buttons">
+            <a id="chpwd" class="save-btn" href="#">确定</a>
+            <span >没有忘记密码？<a id="back-login">返回</a></span>
+        </div>
+    </div>
+
+
+    <a class="close-reveal-modal"><img src="__ROOT__/static/images/icon_close.png" height="24" width="24"></a>
+</div>

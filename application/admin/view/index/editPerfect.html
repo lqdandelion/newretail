@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>{$webtitle}－管理后台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+
+    <link href="__ROOT__/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="__ROOT__/static/css/bootstrap-theme.css" rel="stylesheet" type="text/css" />
+    <link href="__ROOT__/static/css/admin.css" rel="stylesheet" type="text/css" />
+    <link href="__ROOT__/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="__ROOT__/static/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/static/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/static/css/timepicker.less"  type="text/css"/>
+    <link href="__ROOT__/static/css/clockpicker.css" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/static/css/webuploader.css" rel="stylesheet" type="text/css"/>
+    <link href="__ROOT__/static/css/file.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="__ROOT__/static/css/address.css">
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="__ROOT__/static/js/html5shiv.min.js"></script>
+    <script src="__ROOT__/static/js/respond.min.js"></script>
+    <script src="__ROOT__/static/js/bootstrap-timepicker.js"></script>
+
+    <![endif]-->
+    <!-- END THEME STYLES -->
+
+</head>
+<!-- BEGIN BODY -->
+<body
+        style="margin-bottom: 10px; background: url(__ROOT__/static/images/mybackground.jpg) center center; background-size: cover; height: 100%; width: 100%; filter: progid : DXImageTransform.Microsoft.AlphaImageLoader ( src = '__ROOT__/static/images/bg.jpg', sizingMethod = 'scale' );">
+
+<!-- BEGIN nav -->
+<!-- end nav -->
+
+<!-- begin container -->
+<!--<div style="margin-top: 0px;height: 0px;" >
+    <h1 style="text-align: center;color:#b92c28;font-size:46px;font-weight:bold;font-family:STXingkai">商家后台管理系统</h1></div>
+-->
+<h3 class="main-title" style="text-align: center">个人信息</h3>
+<div id="main-tip"></div>
+<div class=" container " style="margin-top: 0px">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+
+            <div class="panel-body">
+                <form id="form5" class="form-horizontal" role="form" method="post">
+                    <div class="form-group">
+                        <label for="shop_id" class="col-md-3 control-label">商户ID</label>
+                        <div class="input-group col-md-8">
+                            <input type="text" class="form-control" id="shop_id" name="shop_id" value="{$my.shop_id}" readonly="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shop_name" class="col-md-3 control-label">商户名称</label>
+                        <div class="input-group col-md-8">
+                            <input type="text" class="form-control" id="shop_name" name="shop_name" value="{$my.shop_name}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="shop_phone" class="col-md-3 control-label">联系电话</label>
+                        <div class="input-group col-md-8">
+                            <input type="text" class="form-control" id="shop_phone" name="shop_phone" value="{$my.shop_phone}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">商户图片</label>
+                        <a href="javascript:;" class="file" style="height:34px;vertical-align:middle;"><label style="text-align: center;">选择图片</label>
+                            <input type="file" name="file" id="file" style="vertical-align:middle;" onchange="previewFile()">
+                        </a>
+                        <img id="img" name="img" src="__ROOT__/{$my.shop_icon}" style="vertical-align:middle;" height="40" width="40" alt="">
+                    </div>
+                    <div class="form-group">
+                    <label for="channel" class="col-md-3 control-label">营业频道</label>
+                    <div class="input-group col-md-8">
+                        <input type="text" class="form-control" id="channel" name="channel" value="{$my.channel}" readonly="true">
+                    </div>
+                </div>
+                    <div class="form-group">
+                        <label for="Addr" class="col-md-3 control-label">商家地址</label>
+                        <div class="input-group col-md-8 address" id="areaLabel">
+                            <input  type="text" name="Addr" id="Addr" readonly  value="{$my.address}">
+                        </div>
+                        <div class="col-md-3"></div>
+                        <input class="col-md-8" type="text" name="address_detail" value="{$my.address_detail}" id="address_detail" placeholder="详细地址" size="14" style="height:30px;border:0px;border-bottom:#aaa 1px solid;outline:none">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="send_price" class="col-md-3 control-label">起送价</label>
+                        <div class="input-group col-md-8">
+                            <input type="text" class="form-control" id="send_price" name="send_price" placeholder="请输入数字" value="{$my.send_price}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="delivery" class="col-md-3 control-label">配送费</label>
+                        <div class="input-group col-md-8">
+                            <input type="text" class="form-control" id="delivery" name="delivery" placeholder="请输入数字" value="{$my.delivery}">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">营业时间</label>
+                        <div class="input-group clockpicker1 col-md-6 ">
+                            <input type="text" class="form-control" id="start_time" name="start_time" value="{$my.start_time}">
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+
+                                </span>
+                            <span class="input-group-btn">开始时间</span>
+                        </div>
+                        <label class="col-md-3 control-label"></label>
+                        <div class="input-group clockpicker2 col-md-6">
+                            <input type="text" class="form-control" id="end_time" name="end_time" value="{$my.end_time}">
+                            <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-time"></span>
+
+                                </span>
+                            <span class="input-group-btn">结束时间</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-4"></div>
+                        <div class=" col-md-2">
+                            <input class="btn btn-primary" type="button" id="editperfect" value="保存"/>
+                        </div>
+                        <div class=" col-md-2">
+                            <input class="btn btn-default" type="button" id="back" value="返回"/>
+                        </div>
+                    </div>
+                </form>
+                <div id="addressSelectWrapper">
+                    <div id="addressSelect">
+                        <div class="tip">
+                            <h3>所在地区</h3>
+                            <button type="button" id="cancel"></button>
+                        </div>
+                        <div id="address">
+                            <ul class="selected-address">
+                                <li class="lastarea" id="lastprovince">请选择</li>
+                                <li class="lastarea" id="lastcity">请选择</li>
+                                <li class="lastarea" id="lastarea">请选择</li>
+                                <li class="lastarea" id="lasttown">请选择</li>
+                            </ul>
+                            <div class="address-content">
+                                <ul id="province"></ul>
+                                <ul id="city"></ul>
+                                <ul id="area"></ul>
+                                <ul id="town"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- end container --> <!-- /.modal --> <!-- END FOOTER --> <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<script src="__ROOT__/static/js/jquery.js"></script>
+<script src="__ROOT__/static/js/bootstrap.min.js"></script>
+<script src="__ROOT__/static/js/clockpicker.js"></script>
+<script src="__ROOT__/static/js/webuploader.min.js"></script>
+<script src="__ROOT__/static/js/my/uploadImage.js"></script>
+<script src="__ROOT__/static/js/my/perfect.js"></script>
+<script src="__ROOT__/static/js/my/city.js"></script>
+<script src="__ROOT__/static/js/my/myinfo.js"></script>
+
+
+<!-- 统计start -->
+<div style="display: none;">
+</div>
+<!-- 统计end -->
+
+</body>
+<!-- END BODY -->
+</html>
+
+<script type="text/javascript">
+
+    $('.clockpicker1').clockpicker({
+
+        placement: 'top',
+
+        align: 'left',
+
+        donetext: 'Done'
+
+    });
+    $('.clockpicker2').clockpicker({
+
+        placement: 'top',
+
+        align: 'left',
+
+        donetext: 'Done'
+
+    });
+    picUpload('#fileList',200,200,'#filePicker',1000);
+    var url = "<?php echo config('__ADMIN__') ?>";
+
+
+</script>
+
+<script>
+    $(function(){
+        // 地址选择器遮罩层打开与关闭
+        $("#areaLabel").click(function(e){
+            $("#addressSelectWrapper").show();
+            e.stopPropagation();
+        });
+        $(document).click(function () {
+            $("#addressSelectWrapper").hide();
+        });
+        $("#cancel").click(function () {
+            $("#addressSelectWrapper").hide();
+        });
+        $("#addressSelect").click(function (e) {
+            e.stopPropagation();
+        });
+
+        initAddress();
+    });
+
+    //初始化地址选择
+    function initAddress() {
+        $("#Addr").cityLinkage({
+            containerId: 'addressSelectWrapper',
+            getSelectedCode:function(){return $("#Addr").data("code");},
+            callback:function(data) {
+                $("#Addr").val(data.addr).data("code",data.town.code).data("hasCity",data.hasCity);
+
+                alert($("#Addr").data("hasCity"));
+            }
+        });
+    }
+    var url = "<?php echo config('__ADMIN__') ?>";
+</script>
+
